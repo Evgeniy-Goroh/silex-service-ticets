@@ -6,13 +6,13 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class TestController
+class TicketController
 {
 
 	public function indexAction(Request $request, Application $app)
 	{
-		$data = array('name' => 'test page');
+		$data = array('name' => 'Ticket page');
 		
-		return $app['twig']->render('test.html.twig', $data);
+		return $app['twig']->render('ticket.html.twig', $data);
 	}
 }
