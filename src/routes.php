@@ -3,6 +3,9 @@ require __DIR__.'/Tickets/Entity/User.php';
 require __DIR__.'/Tickets/Controller/IndexController.php';
 require __DIR__.'/Tickets/Controller/TestController.php';
 require __DIR__.'/Tickets/Controller/TicketController.php';
+require __DIR__.'/Tickets/Controller/UserController.php';
+
+use Symfony\Component\HttpFoundation\Request;
 
 $statement = $conn->query('SELECT * FROM users');
 while($row = $statement->fetchAll(PDO::FETCH_CLASS, "Tickets\Entity\User")) {
@@ -28,4 +31,17 @@ $app->get('/test', 'Tickets\Controller\TestController::indexAction')
 
 
 	
+	
+$app->get('/login', function(Request $request) use ($app) {
+	return $app['twig']->render('login.html.twig', array(
+		//'error'         => $app['security.last_error']($request),
+		//'last_username' => $app['session']->get('_security.last_username'),
+	));
+});
+
+
+$app->get('/user', 'Tickets\Controller\UserController::indexAction')
+	->bind('user');
+	
+
 ?>
