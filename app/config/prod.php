@@ -18,5 +18,5 @@ $app['db.options'] = array(
 );
 
 // User
-$app['security.users'] = array( 'admin' => array( 'ROLE_ADMIN', 'YXylVBIE3HLEUNQEH5Z5bSua4vpEG0flg2V1OcpWw4wzel1nomjtkoG2XVKpug3R4hD18tI0Uj1r8z/3rXxtNg==' ) );
+//$app['security.users'] = array( 'admin' => array( 'ROLE_ADMIN', 'password' ) );
 

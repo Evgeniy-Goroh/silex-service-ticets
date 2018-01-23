@@ -1,25 +1,15 @@
-{% extends 'common/layout.tpl' %}
-{% set active = 'account' %}
 
-{% block content %}
-
-	<h1>{{ 'Login'|trans }}</h1>
-
-	{% if error %}
-		<div class="alert alert-error">
-			{{ error }}
-		</div>
-
-		<div class="alert alert-info">
-			Try with test@test.com/password.
-		</div>
-	{% endif %}
-
-	<form action="{{ path('login_check') }}" method="post" novalidate {{ form_enctype(form) }} class="form-vertical">
-		{{ form_widget(form) }}
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">{{ 'Send'|trans }}</button>
-		</div>
-	</form>
-
-{% endblock %}
+<h1>Login</h1>
+   
+<form action="/login_check" method="post" novalidate  class="form-vertical">
+	<h2 class="form-signin-heading">Please sign in</h2>
+       <label for="inputEmail" class="sr-only">Email address</label>
+       <input id="inputEmail" class="form-control" placeholder="Email address" name="email" required="" autofocus="" type="email">
+       <label for="inputPassword" class="sr-only">Password</label>
+       <input id="inputPassword" class="form-control" placeholder="Password" name="password" required="" type="password">
+     
+	
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">go</button>
+	</div>
+</form>

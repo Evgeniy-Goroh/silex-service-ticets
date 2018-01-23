@@ -9,14 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 $statement = $conn->query('SELECT * FROM users');
 while($row = $statement->fetchAll(PDO::FETCH_CLASS, "Tickets\Entity\User")) {
-	
 	echo $row[0]->getId();
 	echo $row[0]->getName();
 	echo $row[0]->getMail();
 }
 
 
-// Register routes.
 // main page
 $app->get('/', 'Tickets\Controller\IndexController::indexAction')
 ->bind('homepage');
@@ -29,19 +27,15 @@ $app->get('/ticket', 'Tickets\Controller\TicketController::indexAction')
 $app->get('/test', 'Tickets\Controller\TestController::indexAction')
 	->bind('test');
 
+$app->get('/login', 'Tickets\Controller\UserController::login')
+->bind('login');
 
-	
-	
 $app->get('/login', function(Request $request) use ($app) {
 	return $app['twig']->render('login.html.twig', array(
-		//'error'         => $app['security.last_error']($request),
-		//'last_username' => $app['session']->get('_security.last_username'),
+		'error'         => $app['security.last_error']($request),
+		'last_username' => $app['session']->get('_security.last_username'),
 	));
 });
-
-
-$app->get('/user', 'Tickets\Controller\UserController::indexAction')
-	->bind('user');
 	
 
 ?>

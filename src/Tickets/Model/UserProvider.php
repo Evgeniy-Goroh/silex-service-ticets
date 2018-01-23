@@ -15,6 +15,9 @@ namespace Model
         public function loadUserByUsername( $email )
         {
             $email = strtolower( $email );
+            
+            var_dump($email);
+            
             $sql = <<<SQL
 SELECT
     `email`,
@@ -26,6 +29,14 @@ WHERE
     `status` = 'active' AND
     email = ?
 SQL;
+            echo '<pre>';
+            var_dump($this->db);
+            echo '<pre>';
+           
+            die($email);
+            
+            
+            
             $stmt = $this->db->executeQuery( $sql, array( $email ) );
             if ( !$user = $stmt->fetch() )
             {
