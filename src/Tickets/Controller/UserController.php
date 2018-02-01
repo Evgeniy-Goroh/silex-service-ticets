@@ -10,6 +10,7 @@ use Silex\Api\ControllerProviderInterface;
 	{
 		public function connect( Application $app )
 		{
+			
 			$userController = $app['controllers_factory'];
 			$userController->get("/login", array( $this, 'login' ) )->bind( 'login' );
 			$userController->get("/logout", array( $this, 'logout' ) )->bind( 'logout' );
@@ -30,6 +31,7 @@ use Silex\Api\ControllerProviderInterface;
 			//->add( 'username', 'text', array( 'label' => 'Username', 'data' => $app['session']->get( '_security.last_username' ) ) )
 			//->add( 'password', 'password', array( 'label' => 'Password' ) )
 			//->getForm();
+			
 			return $app['twig']->render( '/login.html.twig', array(
 					//'form'  => $form->createView(),
 					//'error' => $app['security.last_error']( $app['request'] ),

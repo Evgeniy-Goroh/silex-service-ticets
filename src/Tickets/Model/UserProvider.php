@@ -12,12 +12,10 @@ namespace Model
     class UserProvider extends BaseModel implements UserProviderInterface
     {
     	
-        public function loadUserByUsername( $email )
+    	public function loadUserByUsername($username)
         {
-            $email = strtolower( $email );
-            
-            var_dump($email);
-            
+  
+        	$email = strtolower( $username);
             $sql = <<<SQL
 SELECT
     `email`,
@@ -29,13 +27,17 @@ WHERE
     `status` = 'active' AND
     email = ?
 SQL;
-            echo '<pre>';
-            var_dump($this->db);
-            echo '<pre>';
-           
-            die($email);
-            
-            
+
+            return  
+                    new User(
+            		'gorokh@retailcrm.ru',
+            		'password',
+            		array('ROLE_ADMIN'),
+            		true,
+            		true,
+            		true,
+            		true);
+                    
             
             $stmt = $this->db->executeQuery( $sql, array( $email ) );
             if ( !$user = $stmt->fetch() )
@@ -54,15 +56,16 @@ SQL;
        
         public function refreshUser( UserInterface $user )
         {
-            if ( !$user instanceof User )
-            {
+            if ( !$user instanceof User ) {
                 throw new UnsupportedUserException( sprintf('Instance of "%s" are not supported'), get_class( $user ) );
             }
+            
             return $this->loadUserByUsername( $user->getUsername() );
         }
         
         public function supportsClass($class)
         {
+        	
             return $class === 'Symfony\Component\Security\Core\User\User';
         }
     }
