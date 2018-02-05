@@ -11,10 +11,10 @@ $app['site_email'] = 'gorokh@retailcrm.ru';
 
 //db
 $app['db.options'] = array(
-		'host'     => 'localhost',
-		'name'   => 'db_tickets_silex',
-		'user'     => 'root',
-		'password' => '123456',
+        'host'     => 'localhost',
+        'name'   => 'db_tickets_silex',
+        'user'     => 'root',
+        'password' => '123456',
 );
 
 // User

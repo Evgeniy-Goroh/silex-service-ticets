@@ -2,7 +2,8 @@
 
 require __DIR__.'/Tickets/Model/Base.php';
 require __DIR__.'/Tickets/Model/UserProvider.php';
-
+require __DIR__.'/Tickets/Model/Concert.php';
+require __DIR__.'/Tickets/Entity/Concert.php';
 
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\FormServiceProvider;
@@ -27,48 +28,47 @@ $app->register(new \Silex\Provider\TwigServiceProvider(), array(
 //auth
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 'security.firewalls' => array(
-		'main' => array(
-				'pattern' => '^.*$',
-				'anonymous' => true,
-				'form' => array(
-						'login_path' => '/login',
-						'check_path' => '/admin/login_check',
-				),
-				'logout' => array('logout_path' => '/logout'),
-				'users' =>  new Model\UserProvider($conn),
-		)
-		),
-	'security.access_rules' => array(
-			array('^/admin', 'ROLE_ADMIN'),
-			array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY')
-	)
-			
+        'main' => array(
+                'pattern' => '^.*$',
+                'anonymous' => true,
+                'form' => array(
+                        'login_path' => '/login',
+                        'check_path' => '/admin/login_check',
+                ),
+                'logout' => array('logout_path' => '/logout'),
+                'users' =>  new Model\UserProvider($app['dbh']),
+        )
+        ),
+    'security.access_rules' => array(
+            array('^/admin', 'ROLE_ADMIN'),
+            array('^.*$', 'IS_AUTHENTICATED_ANONYMOUSLY')
+    )
+            
 ));
 
 $app['security.default_encoder'] = function ($app) {
-	// Plain text (e.g. for debugging)
-	return new PlaintextPasswordEncoder();
+
+    return new PlaintextPasswordEncoder();
 };
 
 
 /*
 $app->error(function (\Exception $e, Request $request, $code) {
-	switch ($code) {
-		case 404:
-			$message = 'Error 404 requested page could not be found.';
-			break;
-		default:
-			$message = 'We are sorry, but something went terribly wrong.';
-	}
-	
-	return new Response($message);
+    switch ($code) {
+        case 404:
+            $message = 'Error 404 requested page could not be found.';
+            break;
+        default:
+            $message = 'We are sorry, but something went terribly wrong.';
+    }
+    
+    return new Response($message);
 });
 */
 
 
 
 $app->boot();
-
 
 require PATH_SRC . '/routes.php';
 

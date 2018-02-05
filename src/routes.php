@@ -9,11 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 
-$statement = $conn->query('SELECT * FROM users');
+$statement = $app['dbh']->query('SELECT * FROM users');
 while($row = $statement->fetchAll(PDO::FETCH_CLASS, "Tickets\Entity\User")) {
-	//echo $row[0]->getId();
-	//echo $row[0]->getName();
-	//echo $row[0]->getMail();
+    //echo $row[0]->getId();
+    //echo $row[0]->getName();
+    //echo $row[0]->getMail();
 }
 
 // main page
@@ -26,7 +26,7 @@ $app->get('/ticket', 'Tickets\Controller\TicketController::indexAction')
 
 //test page
 $app->get('/test', 'Tickets\Controller\TestController::indexAction')
-	->bind('test');
+    ->bind('test');
 
 //admin page
 $app->get('/admin', 'Tickets\Controller\AdminController::indexAction')
@@ -34,13 +34,13 @@ $app->get('/admin', 'Tickets\Controller\AdminController::indexAction')
 
 
 $app->get('/login', function(Request $request) use ($app) {
-	return $app['twig']->render('login.html.twig', array(
-		'error'         => $app['security.last_error']($request),
-		'last_username' => $app['session']->get('_security.last_username'),
-	));
+    return $app['twig']->render('login.html.twig', array(
+        'error'         => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
+    ));
 });
 
-	echo '<pre>';
-	var_dump($app['security.users']);
-	echo '</pre>';
+    //echo '<pre>';
+    //var_dump($app['security.users']);
+    //echo '</pre>';
 ?>
