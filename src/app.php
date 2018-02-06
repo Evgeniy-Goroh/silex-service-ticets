@@ -18,7 +18,11 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\RoutingServiceProvider());
-// register this first
+
+//monolog
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+		'monolog.logfile' => PATH_ROOT.'/app/log/development.log',
+));
 
 //twig
 $app->register(new \Silex\Provider\TwigServiceProvider(), array(

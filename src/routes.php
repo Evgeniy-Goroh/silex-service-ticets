@@ -4,35 +4,30 @@ require __DIR__.'/Tickets/Controller/IndexController.php';
 require __DIR__.'/Tickets/Controller/TestController.php';
 require __DIR__.'/Tickets/Controller/TicketController.php';
 require __DIR__.'/Tickets/Controller/UserController.php';
+require __DIR__.'/Tickets/Controller/Concerts.php';
+
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-
-$statement = $app['dbh']->query('SELECT * FROM users');
-while($row = $statement->fetchAll(PDO::FETCH_CLASS, "Tickets\Entity\User")) {
-    //echo $row[0]->getId();
-    //echo $row[0]->getName();
-    //echo $row[0]->getMail();
-}
+//$app['monolog']->debug('Testing the Monolog logging.');
 
 // main page
-$app->get('/', 'Tickets\Controller\IndexController::indexAction')
-->bind('homepage');
+$app->get('/', 'Tickets\Controller\IndexController::indexAction')->bind('homepage');
 
 //form buy tickets
-$app->get('/ticket', 'Tickets\Controller\TicketController::indexAction')
-->bind('ticket');
+$app->get('/ticket', 'Tickets\Controller\TicketController::indexAction')->bind('ticket');
 
 //test page
-$app->get('/test', 'Tickets\Controller\TestController::indexAction')
-    ->bind('test');
+$app->get('/test', 'Tickets\Controller\TestController::indexAction')->bind('test');
 
 //admin page
-$app->get('/admin', 'Tickets\Controller\AdminController::indexAction')
-->bind('admin');
+$app->get('/admin', 'Tickets\Controller\AdminController::indexAction')->bind('admin');
 
+//concerts page
+$app->match('/concerts/{id}', 'Tickets\Controller\Concerts::indexAction')->bind('concerts');
 
+//auth
 $app->get('/login', function(Request $request) use ($app) {
     return $app['twig']->render('login.html.twig', array(
         'error'         => $app['security.last_error']($request),
@@ -40,7 +35,4 @@ $app->get('/login', function(Request $request) use ($app) {
     ));
 });
 
-    //echo '<pre>';
-    //var_dump($app['security.users']);
-    //echo '</pre>';
 ?>

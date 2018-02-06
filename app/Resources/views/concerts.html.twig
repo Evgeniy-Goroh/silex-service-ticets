@@ -1,0 +1,63 @@
+{% extends 'layout.html.twig' %}
+
+{% set active = 'concerts' %}
+
+{% block content %}
+
+     <h2>{{ concert.getTitle }}</h2>
+         <div>
+         
+              {% if concert.getImage %}
+                  <img class="descr" src="/images/{{ concert.getImage }}" alt="{{ concert.getTitle }}" align="right">
+              {% endif %}
+              <div>
+                 {{ concert.getDescription }}
+              </div>
+              
+              <div>{{ concert.getDate }} {{ concert.getTime }}</div>
+              
+              <h4>Выберите места</h4>
+                
+              <form method="POST" action="/concerts/{{ concert.getId }}">
+                <input type="hidden" name="stage" value="1">
+                <div class="scene">сцена</div>
+                <div class="hall">
+                
+                {% for i in 1..15 %}
+                     <div class="row">
+                         <span style="padding: 10px 20px 0px 0px;"> ряд {{ i }}</span>
+                         {% for k in 1..20 %}
+                         
+                             <div class="">{{ k }}
+                             <br/>
+                             
+                             <input type="checkbox" name="seat[{{ i }}][{{ k }}]">
+                             
+                             </div>
+                         
+                         {% endfor %}
+                     </div>
+                {% endfor %}
+                            
+                </div>
+                
+                <div class="row price_info">
+                {% for pr in price %}
+                    
+                    Цена: {{pr.price}} руб.
+                    Свободных мест: {{pr.free_seats}} руб.
+                    <br>
+                    
+                {% endfor %}
+                
+                </div>
+                
+                <div class="form-group row">
+                    <div class="col-5" >&nbsp;</div>
+                    <div class="col-2" ><button class="btn btn-lg btn-primary btn-block" type="submit">Купить</button></div>
+                </div>
+                </form>
+          
+         </div>
+
+{% endblock %}

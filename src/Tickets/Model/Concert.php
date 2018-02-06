@@ -1,7 +1,8 @@
 <?php
 namespace Model
 {
-    class Concert extends BaseModel{
+    class Concert extends BaseModel
+    {
         
         private $title;
         /**
@@ -27,7 +28,6 @@ namespace Model
             while ($row = $sth->fetch()) {
                 if ($oldId!=$row['id']) {
                     
-                    // новый
                     $oldId=$row['id'];
                     $concert = new \Tickets\Entity\Concert($this->db, $row);
                     $concert->addPrice($row['price_type'], $row['price'], $row['free_seats']);
@@ -40,6 +40,61 @@ namespace Model
             return $concerts;
             
         }
+        
+        public function openById($id) 
+        {
+        	$sql = "SELECT id, title, description, image, concert_date, time_start, publish
+                FROM concert
+                WHERE id = ?";
+        	$sth = $this->db->prepare($sql);
+        	$sth->execute(array($id));
+        	if ($row = $sth->fetch()) {
+        		return new \Tickets\Entity\Concert($this->db, $row);
+        	}
+        	return null;
+        	
+        }
+        
+        /**
+         * возвращает массив занятых мест
+         * первый индекс # ряда, второй индекс # места
+         */
+        public function getOccupiedSeats($id)
+        {
+        	$Seats = array();
+        	$sql = "SELECT rs.row, rs.seat
+                FROM `order` as r
+                INNER JOIN order_seats as rs ON rs.order_id = r.id
+                WHERE r.concert_id = ? AND r.is_active='1'";
+        	$sth = $this->db->prepare($sql);
+        	$sth->execute(array($id));
+        	while ($row = $sth->fetch()) {
+        		$Seats[$row['row']][$row['seat']] = 1;
+        	}
+        	
+        	return $Seats;
+        }
+        
+        public function getPrices($id)
+        {
+        	$prices = array();
+        	$sql = "SELECT (100-count(rs.id)) as free_seats, p.price_type, p.price
+                FROM price as p
+                LEFT JOIN `order` as r ON (r.concert_id = p.concert_id and r.is_active='1')
+                LEFT JOIN order_seats as rs ON (rs.order_id = r.id and rs.price_type=p.price_type)
+                WHERE p.concert_id = ?
+                GROUP BY p.price_type, p.price";
+        	$sth = $this->db->prepare($sql);
+        	$sth->execute(array($id));
+        	while ($row = $sth->fetch()) {
+        		$price[$row['price_type']]['price']= $row['price'];
+        		$price[$row['price_type']]['free_seats'] = $row['free_seats'];
+        		$price[$row['price_type']]['price_type'] = $row['price_type'];
+        	}
+        	
+        	return $price;
+        }
+        
         
     }
     
