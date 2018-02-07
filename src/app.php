@@ -1,10 +1,5 @@
 <?php 
 
-require __DIR__.'/Tickets/Model/Base.php';
-require __DIR__.'/Tickets/Model/UserProvider.php';
-require __DIR__.'/Tickets/Model/Concert.php';
-require __DIR__.'/Tickets/Entity/Concert.php';
-
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\HttpCacheServiceProvider;
@@ -40,7 +35,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
                         'check_path' => '/admin/login_check',
                 ),
                 'logout' => array('logout_path' => '/logout'),
-                'users' =>  new Model\UserProvider($app['dbh']),
+        		'users' =>  new Model\UserProvider($app['dbh']),
         )
         ),
     'security.access_rules' => array(

@@ -18,20 +18,40 @@
               
               <h4>Выберите места</h4>
                 
-              <form method="POST" action="/concerts/{{ concert.getId }}">
+              <form method="POST" action="/ticket/{{ concert.getId }}">
                 <input type="hidden" name="stage" value="1">
                 <div class="scene">сцена</div>
                 <div class="hall">
                 
                 {% for i in 1..15 %}
                      <div class="row">
-                         <span style="padding: 10px 20px 0px 0px;"> ряд {{ i }}</span>
+                         
+                         {% if i <= 5 %}
+                             {% set class = 'price_type_1'%}
+                             
+                         {% elseif i >= 5 and i <= 10  %}
+                             {% set class = 'price_type_2'%}
+                             
+                         {% elseif i >= 10  %}    
+                             {% set class = 'price_type_3'%}  
+                               
+                         {% endif %}
+                         
+                         <span class="rowseat {{class}}"> ряд {{ i }}</span>
+                         
                          {% for k in 1..20 %}
                          
-                             <div class="">{{ k }}
+                             <div class="seat">{{ k }}
                              <br/>
                              
-                             <input type="checkbox" name="seat[{{ i }}][{{ k }}]">
+                             {% if seat[i][k]|default(false) %}
+                             
+                                <div class="nofree"></div>
+                             {% else %}   
+                                <input type="checkbox" name="seat[{{ i }}][{{ k }}]">
+                             {% endif %}
+                             
+                             
                              
                              </div>
                          
@@ -41,16 +61,15 @@
                             
                 </div>
                 
-                <div class="row price_info">
+                <ul class="price_info">
                 {% for pr in price %}
-                    
-                    Цена: {{pr.price}} руб.
-                    Свободных мест: {{pr.free_seats}} руб.
-                    <br>
-                    
+                    <li class="price_type_{{ pr.price_type }}">
+	                    Цена: {{pr.price}} руб.
+	                    Свободных мест: {{pr.free_seats}} руб.
+                    </li>
                 {% endfor %}
                 
-                </div>
+                </ul>
                 
                 <div class="form-group row">
                     <div class="col-5" >&nbsp;</div>

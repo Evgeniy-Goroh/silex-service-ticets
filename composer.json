@@ -6,11 +6,14 @@
 		"symfony/security" : "^3.4",
 		"symfony/form" : "^3.4",
 		"symfony/validator" : "^3.4",
-		"monolog/monolog": "^1.23"
+		"monolog/monolog" : "^1.23"
 	},
 	"autoload" : {
 		"psr-4" : {
-			"Tickets\\" : "src/"
+			"Tickets\\" : "src/",
+			"Model\\" : "src/Tickets/Model/",
+			"Entity\\" : "src/Tickets/Entity/",
+			"Controller\\" : "src/Tickets/Controller/"
 		}
 	}
 }

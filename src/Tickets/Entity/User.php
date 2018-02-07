@@ -1,6 +1,6 @@
 <?php
 
-namespace Tickets\Entity;
+namespace Entity;
 
 class User
 {

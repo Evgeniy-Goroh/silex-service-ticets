@@ -29,7 +29,7 @@ namespace Model
                 if ($oldId!=$row['id']) {
                     
                     $oldId=$row['id'];
-                    $concert = new \Tickets\Entity\Concert($this->db, $row);
+                    $concert = new \Entity\Concert($this->db, $row);
                     $concert->addPrice($row['price_type'], $row['price'], $row['free_seats']);
                     $concerts[] = $concert;
                 } else {
@@ -49,7 +49,7 @@ namespace Model
         	$sth = $this->db->prepare($sql);
         	$sth->execute(array($id));
         	if ($row = $sth->fetch()) {
-        		return new \Tickets\Entity\Concert($this->db, $row);
+        		return new \Entity\Concert($this->db, $row);
         	}
         	return null;
         	
@@ -95,6 +95,14 @@ namespace Model
         	return $price;
         }
         
+        public function priceByRow($arPrice,$row) {
+        	$type = 1+floor( ($row-1)/5);
+        	foreach($arPrice as $price) {
+        		if ($price['price_type'] == $type) {
+        			return $price;
+        		}
+        	}
+        }  
         
     }
     

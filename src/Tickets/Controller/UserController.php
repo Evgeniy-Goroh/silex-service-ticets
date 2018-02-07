@@ -1,5 +1,5 @@
 <?php
-namespace Tickets\Controller;
+namespace Controller;
 
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;

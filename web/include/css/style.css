@@ -37,3 +37,28 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.seat{
+	padding: 1px 1px;
+}
+.rowseat{
+	padding: 10px 20px 0px 0px;
+}
+.nofree{
+	color: red;
+	border-color: red;
+	width: 17px;
+	height: 17px;
+	background-color: red;
+}
+.price_info{
+	padding: 10px 0px 0px 0px;
+}
+.price_type_3{
+	color: yellowgreen;
+}
+.price_type_2{
+	color: blue;
+}
+.price_type_1{
+	color: green;
+}
