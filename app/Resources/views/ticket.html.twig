@@ -21,20 +21,29 @@
          </div>
    
         <form action="/order/{{ concert.getId }}" method="POST">
+        <ul>
         
-         {% for row in row %}
-            <div>{{ row.price }}</div>
-            <div>количество билетов {{ row.col }}</div>
-            
-            
+         {% for seat in seat %}
+            <li>
+                Цена: {{ seat.price }} 
+                Ряд: {{ seat.row }}
+                Место: {{ seat.seat }}
+            </li>
         {% endfor %}
+        </ul>
         
+         <div>Итого: {{order.count }} билетов на сумму {{order.total }} </div>
         
-        
+        <div class="form-group row">
+            <label for="Email" class="col-2 col-form-label">Ваш Email:</label>
+            <div class="col-10">
+                <input type="text" id="Email" name="Email" class="form-control"> 
+            </div>
+        </div>
         
         <div class="form-group row">
             <div class="col-2" >&nbsp;</div>
-            <div class="col-2" ><button class="btn btn-lg btn-primary btn-block" type="submit">Подтвердить</button></div>
+            <div class="col-3" ><button class="btn btn-lg btn-primary btn-block" type="submit">Заказать</button></div>
         </div>
         
         </form>

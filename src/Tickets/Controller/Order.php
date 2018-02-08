@@ -11,17 +11,19 @@ class Order
     {
        $data = array();
        $id = $request->attributes->get('id');
+       $mail = $request->request->get('Email');
        if (!$id) {
            $app->abort(404, 'The requested Concerts was not found.');
        }else {
            $obj = new \Model\Concert($app['dbh']);
-           $data['concert'] = $obj->openById($id);
-           
+           $data['concert'] = $obj->openById($id); 
        }
        
-       echo '<pre>';
-       print_r($data);
-       echo '</pre>';
+       
+       
+       
+       var_dump($id);
+       var_dump($request->request);
        
        
        return $app['twig']->render('order.html.twig', $data);

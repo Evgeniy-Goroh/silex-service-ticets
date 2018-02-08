@@ -88,8 +88,9 @@ class Concert
     
     public function getPrices($all=false)
     {
-        if (!is_array($this->prices)) {
-            Concert::getPrices($this, $this->dbh);
+       
+    	if (!is_array($this->prices)) {
+            \Model\Concert::getPrices($this);
         }
         ksort($this->prices);
         if ($all) {
@@ -101,7 +102,15 @@ class Concert
                 $res[] = $price;
             }
         }
+        
         return $res;
     }
     
+    public function getOccupiedSeats($id) {
+    	if (!is_array($this->booked)) {
+    		$this->booked = \Model\Concert::getOccupiedSeats($id,$this->dbh);
+    	}
+    	
+    	return $this->booked;
+    }
 }

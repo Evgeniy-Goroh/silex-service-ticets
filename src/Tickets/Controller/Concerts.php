@@ -13,12 +13,13 @@ class Concerts
        $id = $request->attributes->get('id');
        if (!$id) {
            $app->abort(404, 'The requested Concerts was not found.');
-       }else {
+       } else {
            $obj = new \Model\Concert($app['dbh']);
            $data['concert'] = $obj->openById($id);
-           $data['seat'] = $obj->getOccupiedSeats($id);
-           $data['price'] = $obj->getPrices($id);
+           $data['seat'] = $data['concert']->getOccupiedSeats($id);
+           $data['price'] = $obj->getPrices($data['concert']);
        }
+       
        
        return $app['twig']->render('concerts.html.twig', $data);
     }

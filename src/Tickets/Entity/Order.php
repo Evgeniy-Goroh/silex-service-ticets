@@ -31,15 +31,106 @@ class Order
 	}
 	
 	
+	public function openSeats($dbh)
+	{
+		if (!is_array($this->seats)) {
+			$this->seats = \Model\Order::getSeats($this, $dbh);
+		}
+	}
+	
+	public function getSeats()
+	{
+		return $this->seats;
+	}
+	
+	public function setSeats($seats)
+	{
+		$this->seats = array();
+		if (!is_array($seats))
+			return;
+			foreach ($seats as $row => $val) {
+				foreach ($val as $seat => $p) {
+					$this->seats[] = array('row'=>$row, 'seat'=>$seat);
+				}
+			}
+	}
+	
+	public function getConcertId()
+	{
+		return $this->concert_id;
+	}
+	
+	
+	public function openConcert($dbh)
+	{
+		if (!($this->concert instanceof Concert)) {
+			$obj = new \Model\Concert($dbh);
+			$this->concert = $obj->openById($this->concert_id);
+		}
+	}
+	
+	public function getConcert()
+	{
+		return $this->concert;
+	}
+	
+	public function getId()
+	{
+		return $this->id;
+	}
+	
+	public function getEmail()
+	{
+		return $this->email;
+	}
+	
+	public function setEmail($val)
+	{
+		$this->email = $val;
+	}
+	
+	public function getTotal()
+	{
+		return $this->total;
+	}
+	
+	public function getIsActive()
+	{
+		return $this->is_active;
+	}
+	
+	public function getIsPaid()
+	{
+		return $this->is_paid;
+	}
+	
+	public function setIsActive($val)
+	{
+		if ($val=='') $val = '0';
+		else $val = '1';
+		$this->is_active = $val;
+	}
+	
+	public function setIsPaid($val)
+	{
+		if ($val=='') $val = '0';
+		else $val = '1';
+		$this->is_paid = $val;
+	}
+	
 	public static function openById($id, $dbh)
 	{
-		$order = Order\Model::openById($id, $dbh);
+		$order = \Model\Order::openById($id, $dbh);
+		$order->openConcert($dbh);
+		$order->openSeats($dbh);
 		
 		return $order;
 	}
 	
 	public function save($dbh)
 	{
-		return Order\Model::save($this, $dbh);
+		return \Model\Order::save($this, $dbh);
 	}
+	
+	
 }
