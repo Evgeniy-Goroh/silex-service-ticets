@@ -17,9 +17,9 @@ class Concerts
            $obj = new \Model\Concert($app['dbh']);
            $data['concert'] = $obj->openById($id);
            $data['seat'] = $data['concert']->getOccupiedSeats($id);
-           $data['price'] = $obj->getPrices($data['concert']);
+           $obj->getPrices($data['concert']);
+           $data['price'] = $data['concert']->getPrices();
        }
-       
        
        return $app['twig']->render('concerts.html.twig', $data);
     }

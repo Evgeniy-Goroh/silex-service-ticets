@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+  <div>Admin panel</div>
+  
+  {% if is_granted('ROLE_ADMIN') %}
+      <a class="nav-link" href="#">Login:{{name}}</a>
+  {% endif %}
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link <!--active-->" href="/admin">Заявки</a>
+        </li>
+        
+    </ul>
+
+    <div class="actions">
+        <a class="btn btn-outline-success" href="/admin/addconcert" role="button">Добавить концерт</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>is_active</th>
+                <th>is_paid</th>
+                <th>Дата</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th>{{ order.id }}</th>
+                <td>{{ order.title }}</td>
+                <td>{{ order.is_active }}</td>
+                <td>{{ order.is_paid }}</td>
+                <td>{{ order.created }}</td>
+                <td>{{ order.total }}</td>
+                <td><a href="/admin/edit/{{ order.id }}"> Edit </a></td>
+            </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

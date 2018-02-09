@@ -22,6 +22,8 @@ $app->match('/concerts/{id}', 'Controller\Concerts::indexAction')->bind('concert
 
 $app->match('/order/{id}', 'Controller\Order::indexAction')->bind('order');
 
+$app->get('/admin/addconcert', 'Controller\AdminController::addConcert')->bind('addConcert');
+
 //auth
 $app->get('/login', function(Request $request) use ($app) {
     return $app['twig']->render('login.html.twig', array(

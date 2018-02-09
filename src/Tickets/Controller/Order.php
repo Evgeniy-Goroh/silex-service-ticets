@@ -19,11 +19,16 @@ class Order
            $data['concert'] = $obj->openById($id); 
        }
        
+       $order = $app['session']->get('order');
+       
+       if($mail) {
+       	    $order->setEmail($mail);
+       	    die('stop');
+       	    $order->save($app['dbh']);
+       	    echo 'заявка сохранена';
+       }
        
        
-       
-       var_dump($id);
-       var_dump($request->request);
        
        
        return $app['twig']->render('order.html.twig', $data);

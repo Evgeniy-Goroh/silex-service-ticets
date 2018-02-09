@@ -4,42 +4,42 @@
 
 {% block content %}
 
-	<h2>{{ title }} </h2>
-	
-	<div class="row">
-		 {% for concert in concerts %}
-			<div class="col-md-4">
-				<h2>{{ concert.getTitle }}</h2>
-			    <div class="list-img">
-	               <img src="/images/{{ concert.getImage }}">
-	            </div>
-			     
-			    <div class="date" style="">
-				    <span style="">
-				    	{{ concert.getDate }}
-				    	{{ concert.getTime }}
-				    </span>
-			    </div>
-	            
-	            <div>Места и цены:
-		            {% if concert.isFreeSeats %}
-		            	  {% for price in concert.getPrices %}
-		            	      <div>
-		            	          Цена: {{ price['price'] }}, 
-		            	          свободные места: {{ price['free_seats'] }}
-		            	      </div>
-		            	  {% endfor %}
-		            	 <p><a class="btn btn-primary btn-lg" href="/concerts/{{concert.getId()}}" role="button">Купить сейчас &raquo;</a></p>
-	                
-	                {% else %}
-	                      <div>Очень жаль, но все места уже забронированы</div>
-		            {% endif %}
-	            </div>
-			     
-			</div>
-		
-		 {% endfor %}
-	 </div>
+    <h2>{{ title }} </h2>
+    
+    <div class="row">
+         {% for concert in concerts %}
+            <div class="col-md-4">
+                <h2>{{ concert.getTitle }}</h2>
+                <div class="list-img">
+                   <img src="/images/{{ concert.getImage }}">
+                </div>
+                 
+                <div class="date" style="">
+                    <span style="">
+                        {{ concert.getDate }}
+                        {{ concert.getTime }}
+                    </span>
+                </div>
+                
+                <div>Места и цены:
+                    {% if concert.isFreeSeats %}
+                          {% for price in concert.getPrices %}
+                              <div>
+                                  Цена: {{ price['price'] }}, 
+                                  свободные места: {{ price['free_seats'] }}
+                              </div>
+                          {% endfor %}
+                         <p><a class="btn btn-primary btn-lg" href="/concerts/{{concert.getId()}}" role="button">Купить сейчас &raquo;</a></p>
+                    
+                    {% else %}
+                          <div>Очень жаль, но все места уже забронированы</div>
+                    {% endif %}
+                </div>
+                 
+            </div>
+        
+         {% endfor %}
+     </div>
  
 
 {% endblock %}
