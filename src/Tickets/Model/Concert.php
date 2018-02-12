@@ -92,6 +92,7 @@ namespace Model
         	
         }
         
+        
         public function priceByRow($arPrice,$row) 
         {
         	$type = 1+floor( ($row-1)/5);
@@ -103,6 +104,55 @@ namespace Model
         }  
         
         
+        public static function save($concert, $dbh)
+        {
+        	if (!$concert->getId()) {
+        		// сохраняем новый объект
+        		return self::saveNewConcert($concert, $dbh);
+        	} else {
+        		// обновляем существующего
+        		return self::updateConcert($concert, $dbh);
+        	}
+        }
+        
+       
+        private static function saveNewConcert($concert, $dbh)
+        {
+        	$sql = 'INSERT INTO concert(id, title, description, concert_date, time_start, publish)
+                VALUES (?,?,?,?,?,?)';
+        	$sth = $dbh->prepare($sql);
+        	$sth->execute(array( $concert->getId(),
+        			$concert->getTitle(),
+        			$concert->getDescription(),
+        			$concert->getDate(),
+        			$concert->getTime(),
+        			$concert->getPublish(),
+        	));
+        	$id = $dbh->lastInsertId(); // ID нового объекта
+        	
+        	if ($id) {
+	        	// сохраняем картинку
+	        	if ($concert->getTmpFile()){
+	        		$imgfile = $id.'.'.$concert->getTmpFile()->getClientOriginalExtension();
+	        		$sql = 'UPDATE concert SET image=? WHERE id=?';
+	        		$sth = $dbh->prepare($sql);
+	        		$sth->execute(array($imgfile, $id));
+	        		$concert->getTmpFile()->move(__DIR__.'/../../www/images',$imgfile);
+	        	}
+        	
+        		$prices = $concert->getPrices(true);
+        		
+        		// сохраняем цены
+        		foreach ($prices as $price) {
+        			$sql = 'INSERT INTO price (price_type, concert_id, price)
+        	       VALUES(?,?,?)';
+        			$sth = $dbh->prepare($sql);
+        			$sth->execute(array($price['type'], $id, $price['price']));
+        		}
+        	}
+        	
+        	return $id;
+        }
         
     }
     

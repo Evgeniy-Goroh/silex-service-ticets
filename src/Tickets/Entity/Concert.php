@@ -113,4 +113,14 @@ class Concert
     	
     	return $this->booked;
     }
+    
+    public function setUploadedFile($file) {
+    	$this->tmpFile = $file;
+    }
+    
+    public function getTmpFile()
+    {
+    	return $this->tmpFile;
+    }
+    
 }

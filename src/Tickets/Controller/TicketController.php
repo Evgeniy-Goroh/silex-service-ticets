@@ -4,6 +4,7 @@ namespace Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 class TicketController
@@ -59,8 +60,11 @@ class TicketController
         
         $app['session']->set('order', $order);
         
+        
         echo '<pre>';
         print_r($data);
+        print_r($request->request);
+        print_r($order);
         echo '</pre>';
         
         return $app['twig']->render('ticket.html.twig', $data);

@@ -35,10 +35,36 @@ class AdminController
     
     public function addConcert(Request $request, Application $app)
     {
-        
-        
-        $data = array();
+    	$concert = new \Entity\Concert($app['dbh'], array(
+    			'title'=>$request->request->get('title'),
+    			'description'=>$request->request->get('description'),
+    			'time_start'=>$request->request->get('time'),
+    			'concert_date'=>$request->request->get('date'),
+    			'publish'=>$request->request->get('publish')
+    	));
+    	
+    	// картинка
+    	if ($request->files->get('image') !='') {
+    		$concert->setUploadedFile($request->files->get('image'));
+    	}
+    	
+    	// цены
+    	$prices = $request->request->get('price');
+    	if (is_array($prices)) {
+    		foreach($prices as $type=>$price) {
+    			$concert->addPrice($type, $price, 100);
+    		}
+    	}
+    	
+    	if ($prices) {
+    		\Model\Concert::save($concert,$app['dbh']);
+    		return $app->redirect('/admin');
+    	}
+    	
+    	$data = array();
         
         return $app['twig']->render('admin/addconcert.html.twig', $data);
     }
+    
+    
 }

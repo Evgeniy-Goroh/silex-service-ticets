@@ -4,7 +4,7 @@ namespace Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Validator\Constraints as Assert;
 class Order
 {
     public function indexAction(Request $request, Application $app)
@@ -28,7 +28,12 @@ class Order
        	    echo 'заявка сохранена';
        }
        
-       
+       //
+       $errors = $app['validator']->validate($mail, new Assert\NotBlank());
+       if (count($errors) > 0) {
+       	   $data['errors'] = (string) $errors;
+       	   return $app->redirect('/ticket/'.$id);
+       }
        
        
        return $app['twig']->render('order.html.twig', $data);

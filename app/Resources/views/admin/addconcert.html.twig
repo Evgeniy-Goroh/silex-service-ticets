@@ -13,7 +13,7 @@
 
     <h2>Добавить новый концерт</h2>
     
-    <form method="POST" action="/admin/addconcert">
+    <form method="post" action="/admin/addconcert" enctype=multipart/form-data>
         <div class="form-group row">
             <label for="title-input" class="col-2 col-form-label">Название</label>
             <div class="col-10">
@@ -23,13 +23,13 @@
         <div class="form-group row">
             <label for="description-input" class="col-2 col-form-label">Описание</label>
             <div class="col-10">
-                <textarea class="form-control" id="description-input" name="title"></textarea>
+                <textarea class="form-control" id="description-input" name="description"></textarea>
             </div>
         </div>
         <div class="form-group row">
             <label for="image-input" class="col-2 col-form-label">Картинка</label>
             <div class="col-10">
-                <input class="form-control" type="file" value="" id="image-input" name="image">
+                <input class="form-control" type="file" id="image-input" name="image">
             </div>
         </div>    
         <div class="form-group row">
@@ -47,9 +47,31 @@
         <div class="form-group row">
             <label for="publish-input" class="col-2 col-form-label">Публиковать</label>
             <div class="col-2">
-                 <input type="checkbox" class="publish-input"> 
+                 <input type="checkbox" name="publish" class="publish-input"> 
             </div>
-        </div>    
+        </div>
+        
+        <div class="form-group row">
+	        <label for="price1-input" class="col-2 col-form-label">Цена, ряды 1-5</label>
+	        <div class="col-3">
+	            <input class="form-control" required="" type="text" value="" id="price1-input" name="price[1]">
+	        </div>
+		</div>
+		    
+	    <div class="form-group row">
+	        <label for="price2-input" class="col-2 col-form-label">Цена, ряды 6-10</label>
+	        <div class="col-3">
+	            <input class="form-control" required="" type="text" value="" id="price2-input" name="price[2]">
+	        </div>
+	    </div>
+	       
+	    <div class="form-group row">
+	        <label for="price3-input" class="col-2 col-form-label">Цена, ряды 11-15</label>
+	        <div class="col-3">
+	            <input class="form-control" required="" type="text" value="" id="price3-input" name="price[3]">
+	        </div>
+	    </div>      
+            
         <div class="form-group row">
             <div class="col-2" >&nbsp;</div>
             <div class="col-2">
