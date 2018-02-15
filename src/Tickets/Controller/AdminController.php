@@ -61,9 +61,7 @@ class AdminController
     		return $app->redirect('/admin');
     	}
     	
-    	$data = array();
-        
-        return $app['twig']->render('admin/addconcert.html.twig', $data);
+        return $app['twig']->render('admin/addconcert.html.twig');
     }
     
     

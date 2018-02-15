@@ -67,6 +67,10 @@ class TicketController
         print_r($order);
         echo '</pre>';
         
+        
+        
+        
+        
         return $app['twig']->render('ticket.html.twig', $data);
     }
 }

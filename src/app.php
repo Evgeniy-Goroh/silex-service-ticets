@@ -51,6 +51,7 @@ $app['security.default_encoder'] = function ($app) {
 };
 
 
+
 /*
 $app->error(function (\Exception $e, Request $request, $code) {
     switch ($code) {

@@ -23,7 +23,6 @@ class Order
        
        if($mail) {
        	    $order->setEmail($mail);
-       	    die('stop');
        	    $order->save($app['dbh']);
        	    echo 'заявка сохранена';
        }
@@ -32,7 +31,9 @@ class Order
        $errors = $app['validator']->validate($mail, new Assert\NotBlank());
        if (count($errors) > 0) {
        	   $data['errors'] = (string) $errors;
-       	   return $app->redirect('/ticket/'.$id);
+       	   var_dump($data);
+       	   
+       	   //return $app->redirect('/ticket/'.$id);
        }
        
        

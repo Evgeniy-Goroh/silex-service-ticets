@@ -21,6 +21,10 @@ class Concerts
            $data['price'] = $data['concert']->getPrices();
        }
        
+       echo 'Выбор места';
+       
        return $app['twig']->render('concerts.html.twig', $data);
     }
+    
+    
 }

@@ -108,9 +108,23 @@ namespace Model
         
         public static function getAllOrdersSeat($dbh)
         {
-            
-            
             echo 'test';
+        }
+        
+        /**
+         * Неоплаченные заявки старше часа деактивируются
+         */
+        public  function clearOrders($dbh)
+        {
+        	$sql = "UPDATE `order`, order_seats
+                SET `order`.is_active='0', order_seats.crs = NULL
+                WHERE order_seats.order_id = `order`.id
+                    AND ADDTIME(`order`.created, '01:00:00')<NOW()
+                    AND `order`.is_paid='0'
+                    AND `order`.is_active='1'";
+        	$sth = $dbh->prepare($sql);
+        	
+        	return $sth->execute(array());
         }
         
     }
