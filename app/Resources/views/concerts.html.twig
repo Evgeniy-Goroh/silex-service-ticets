@@ -18,7 +18,7 @@
               
               <h4>Выберите места</h4>
                 
-              <form method="POST" action="/ticket/{{ concert.getId }}">
+              <form method="post" action="/concerts/{{ concert.getId }}">
                 <input type="hidden" name="stage" value="1">
                 <div class="scene">сцена</div>
                 <div class="hall">
@@ -70,6 +70,12 @@
                 {% endfor %}
                 
                 </ul>
+                
+                {% if errors | default(false) %}
+	                {% for e in errors %}
+	                     <div class="alert alert-warning" role="alert">{{ e.getMessage }}</div>
+	                {% endfor %}
+                {% endif %}
                 
                 <div class="form-group row">
                     <div class="col-5" >&nbsp;</div>

@@ -1,6 +1,5 @@
 <?php 
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 //$app['monolog']->debug('Testing the Monolog logging.');
@@ -10,9 +9,6 @@ $app->get('/', 'Controller\IndexController::indexAction')->bind('homepage');
 
 //form buy tickets
 $app->match('/ticket/{id}', 'Controller\TicketController::indexAction')->bind('ticket');
-
-//test page
-$app->get('/test', 'Controller\TestController::indexAction')->bind('test');
 
 //admin page
 $app->get('/admin', 'Controller\AdminController::indexAction')->bind('admin');

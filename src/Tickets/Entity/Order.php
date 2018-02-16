@@ -2,6 +2,12 @@
 
 namespace Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Range;
+
 class Order
 {
     private $id;
@@ -13,7 +19,6 @@ class Order
     private $total;
     private $seats;     // массив мест
     private $concert;   // объект класса Concert
-    
     
     function __construct($arr)
     {
@@ -30,6 +35,13 @@ class Order
         if (isset($arr['total'])) $this->total = $arr['total'];
     }
     
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+    	$metadata->addPropertyConstraint('seats', new NotBlank(array(
+    			'groups' => array('save','seats'),
+    			'message'=>'Необходимо выбрать хотя бы одно место'
+    	))); 
+    }
     
     public function openSeats($dbh)
     {

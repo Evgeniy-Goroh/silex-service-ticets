@@ -3,6 +3,10 @@ namespace Model
 {
     class Order extends BaseModel
     {
+    	
+    	/**
+    	 * возвращает объект заказа
+    	 */
         public static function openById($id, $dbh)
         {
             $sql = "SELECT id, concert_id, email, is_active, is_paid, created, total
@@ -33,13 +37,7 @@ namespace Model
         
         public static function save($order, $dbh)
         {
-            echo '<pre>';
-            var_dump('save cуществующий');
-            echo '</pre>';
-            
             if ($order->getId()) {
-                die('test1');
-                // существующий
                 $sql = "UPDATE `order`
                     SET is_active = ?, is_paid = ?
                     WHERE id = ?";
@@ -48,14 +46,14 @@ namespace Model
                 return $res;
             } else {
                 
-                //die('test2');
                 return Order::saveOrder($dbh, $order->getConcertId(), $order->getEmail(), $order->getSeats(),$order->getTotal());
             }
         }
-        
+        /**
+         * Сохранение заказов и места
+         */
         public static function saveOrder($dbh, $id, $email, $seats, $total)
         {
-            
             $obj = new \Model\Concert($dbh);
             $data['concert'] = $obj->openById($id);
             $obj->getPrices($data['concert']);
@@ -68,7 +66,7 @@ namespace Model
                 $sth = $dbh->prepare($sql);
                 $res = $sth->execute(array($id, $email, $total,'1', '0'));
                 if (!$res) {
-                    throw new Exception('Ошибка в запросе создания заказа');
+                    throw new \Exception('Ошибка в запросе создания заказа');
                 }
                 $order_id = $dbh->lastInsertId();
                 foreach($seats as $seat) {
@@ -79,7 +77,7 @@ namespace Model
                     $sth = $dbh->prepare($sql);
                     $res = $sth->execute(array($order_id, $price['type'], $seat['row'], $seat['seat'], $crs, $price['price']));
                     if (!$res) {
-                        throw new Exception('Ошибка при сохранении места');
+                        throw new \Exception('Ошибка при сохранении места');
                     }
                 }
                 
@@ -93,7 +91,9 @@ namespace Model
             
             return true;
         }
-        
+        /**
+         * Список заказов
+         */
         public static function getAllOrders($dbh)
         {
             $sql = "SELECT o.id, c.title, o.email, o.is_active, o.is_paid, o.created, o.total
@@ -106,9 +106,17 @@ namespace Model
             return $sth->fetchAll();
         }
         
-        public static function getAllOrdersSeat($dbh)
+        /**
+         * Купленные места заказа
+         */
+        public static function getAllOrderSeat($order,$dbh)
         {
-            echo 'test';
+        	$sql = "SELECT row, seat
+                FROM order_seats
+                WHERE order_id = ?";
+            $sth = $dbh->prepare($sql);
+            $sth->execute(array($order->getId()));
+            return $sth->fetchAll();
         }
         
         /**

@@ -115,7 +115,7 @@ namespace Model
         	}
         }
         
-       
+        
         private static function saveNewConcert($concert, $dbh)
         {
         	$sql = 'INSERT INTO concert(id, title, description, concert_date, time_start, publish)
