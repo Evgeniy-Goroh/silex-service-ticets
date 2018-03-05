@@ -10,10 +10,10 @@ use Silex\Api\ControllerProviderInterface;
     {
         public function connect( Application $app )
         {
-            
             $userController = $app['controllers_factory'];
             $userController->get("/login", array( $this, 'login' ) )->bind( 'login' );
             $userController->get("/logout", array( $this, 'logout' ) )->bind( 'logout' );
+            
             return $userController;
         }
         /**
@@ -24,20 +24,7 @@ use Silex\Api\ControllerProviderInterface;
          */
         function login( Application $app )
         {
-        var_dump('login');
-            
-            
-            //$form = $app['form.factory']->createBuilder('form')
-            //->add( 'username', 'text', array( 'label' => 'Username', 'data' => $app['session']->get( '_security.last_username' ) ) )
-            //->add( 'password', 'password', array( 'label' => 'Password' ) )
-            //->getForm();
-            
-            return $app['twig']->render( '/login.html.twig', array(
-                    //'form'  => $form->createView(),
-                    //'error' => $app['security.last_error']( $app['request'] ),
-            ) );
-            
-            
+            return $app['twig']->render( '/login.html.twig', array());
             
         }
         /**

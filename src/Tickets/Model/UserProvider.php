@@ -14,46 +14,26 @@ namespace Model
     	
     	public function loadUserByUsername($username)
         {
-  
         	$email = strtolower( $username);
-            $sql = <<<SQL
-SELECT
-    `email`,
-    `password`,
-    `roles`
-FROM
-    `user`
-WHERE
-    `status` = 'active' AND
-    email = ?
-SQL;
+            $sql = "SELECT `mail`, `password`,`role` FROM `users` WHERE mail = ?";
 
-            return  
-                    new User(
-            		'gorokh@retailcrm.ru',
-            		'password',
-            		array('ROLE_ADMIN'),
-            		true,
-            		true,
-            		true,
-            		true);
-                    
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(array($email));
             
-            $stmt = $this->db->executeQuery( $sql, array( $email ) );
-            if ( !$user = $stmt->fetch() )
-            {
+            if ( !$user = $stmt->fetch()) {
                 throw new UsernameNotFoundException( sprintf( 'Username "%s" does not exist.', $email ) );
             }
+            
             return new User(
-                    $user['email'],
+                    $user['mail'],
                     $user['password'],
-                    explode(',', $user['roles']),
+                    explode(',', $user['role']),
                     true,
                     true,
                     true,
                     true );
         }
-       
+        
         public function refreshUser( UserInterface $user )
         {
             if ( !$user instanceof User ) {

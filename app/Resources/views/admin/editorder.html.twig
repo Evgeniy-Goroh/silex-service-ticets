@@ -1,0 +1,80 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+  <div>Admin panel</div>
+  
+  {% if is_granted('ROLE_ADMIN') %}
+      <a class="nav-link" href="#">Login:{{name}}</a>
+  {% endif %}
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link <!--active-->" href="/admin">Заявки</a>
+        </li>
+        
+    </ul>
+
+    <div class="actions">
+        <a class="btn btn-outline-success" href="/admin/addconcert" role="button">Добавить концерт</a>
+    </div>
+
+	<h2>{{ title }}</h2>
+	
+	<form method="POST" action="/admin/order/{{ order.getId}}">
+    <input type="hidden" name="id" value="{{ order.getId }}">
+    <div class="form-group row">
+        <label for="title-input" class="col-2 col-form-label">Концерт</label>
+        <div class="col-10">
+            {{ order.getConcert.getTitle }}
+            
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="description-input" class="col-2 col-form-label">Email</label>
+        <div class="col-10">
+            {{ order.getEmail }}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="description-input" class="col-2 col-form-label">Места</label>
+        <div class="col-10">
+            
+             {% for seat in order.getSeats %}
+                  Ряд: {{ seat.row }} - Место: {{ seat.seat }} 
+                  <br />
+             {% endfor %}
+        
+        </div>
+    </div>    
+    
+    <div class="form-group row">
+        <label for="description-input" class="col-2 col-form-label">Общая стоимость:</label>
+        <div class="col-10">
+            {{ order.getTotal}}
+        </div>
+    </div>        
+    
+    <div class="form-group row">
+        <label for="activ-input" class="col-2 col-form-label">Активна</label>
+        <div class="col-3">
+             <input type="checkbox" name="active" {% if order.getIsActive %} checked="" {% endif %} > 
+        </div>
+    </div>    
+    
+    <div class="form-group row">
+        <label for="paid-input" class="col-2 col-form-label">Оплачена</label>
+        <div class="col-3">
+             <input type="checkbox" name="paid" {% if order.getIsPaid %} checked="" {% endif %} > 
+        </div>
+    </div>    
+    
+    <div class="form-group row">
+        <div class="col-2" >&nbsp;</div>
+        <div class="col-2">
+             <button class="btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
+        </div>
+    </div>        
+    </form>
+	
+{% endblock %}

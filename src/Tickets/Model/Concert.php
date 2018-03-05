@@ -137,7 +137,7 @@ namespace Model
 	        		$sql = 'UPDATE concert SET image=? WHERE id=?';
 	        		$sth = $dbh->prepare($sql);
 	        		$sth->execute(array($imgfile, $id));
-	        		$concert->getTmpFile()->move(__DIR__.'/../../www/images',$imgfile);
+	        		$concert->getTmpFile()->move(PATH_ROOT.'/web/www/images',$imgfile);
 	        	}
         	
         		$prices = $concert->getPrices(true);
