@@ -6,15 +6,17 @@ namespace Model
     use Symfony\Component\Security\Core\User\User;
     use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
     use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+    
     /**
      * provide users to the security service
      */
     class UserProvider extends BaseModel implements UserProviderInterface
     {
-    	
-    	public function loadUserByUsername($username)
+        
+        
+        public function loadUserByUsername($username)
         {
-        	$email = strtolower( $username);
+            $email = strtolower( $username);
             $sql = "SELECT `mail`, `password`,`role` FROM `users` WHERE mail = ?";
 
             $stmt = $this->db->prepare($sql);
@@ -24,7 +26,7 @@ namespace Model
                 throw new UsernameNotFoundException( sprintf( 'Username "%s" does not exist.', $email ) );
             }
             
-            return new User(
+            $obUser = new User(
                     $user['mail'],
                     $user['password'],
                     explode(',', $user['role']),
@@ -32,6 +34,8 @@ namespace Model
                     true,
                     true,
                     true );
+            
+            return $obUser;
         }
         
         public function refreshUser( UserInterface $user )
@@ -45,8 +49,9 @@ namespace Model
         
         public function supportsClass($class)
         {
-        	
+            
             return $class === 'Symfony\Component\Security\Core\User\User';
         }
+        
     }
 }

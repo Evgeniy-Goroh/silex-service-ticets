@@ -6,7 +6,8 @@
 		"symfony/security" : "^3.4",
 		"symfony/form" : "^3.4",
 		"symfony/validator" : "^3.4",
-		"monolog/monolog" : "^1.23"
+		"monolog/monolog" : "^1.23",
+		"phpunit/phpunit" : "^6.5"
 	},
 	"autoload" : {
 		"psr-4" : {
@@ -15,5 +16,9 @@
 			"Entity\\" : "src/Tickets/Entity/",
 			"Controller\\" : "src/Tickets/Controller/"
 		}
+	},
+	"require-dev": {
+		"symfony/browser-kit": "^3.4",
+		"symfony/css-selector": "^3.4"
 	}
 }

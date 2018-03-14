@@ -67,7 +67,7 @@ class Concerts
     	
     	if (!$id) {
     		$app->abort(404, 'The requested Concerts was not found.');
-    	}else {
+    	} else {
     		$obj = new \Model\Concert($app['dbh']);
     		
     		$data['concert'] = $obj->openById($id);

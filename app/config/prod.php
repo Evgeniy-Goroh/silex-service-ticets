@@ -17,6 +17,6 @@ $app['db.options'] = array(
         'password' => '123456',
 );
 
-// User
-$app['security.users'] = array( 'gorokh@retailcrm.ru' => array( 'ROLE_ADMIN', 'password' ) );
-
+// User password
+$pass = '$2y$13$lf6KudfjMNDwH6tSxRq6J.FNbkRNZuZlhMpCQPPgeIF//BtzGZkwC';
+$app['security.users'] = array( 'gorokh@retailcrm.ru' => array( 'ROLE_ADMIN', $pass) );

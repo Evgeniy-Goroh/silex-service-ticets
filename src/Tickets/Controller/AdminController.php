@@ -17,7 +17,6 @@ class AdminController
         $data['success'] = $app['session']->get('success');
         $data['errors'] = $app['session']->get('error');
         
-        
         return $app['twig']->render('admin/admin.html.twig', $data);
     }
     
